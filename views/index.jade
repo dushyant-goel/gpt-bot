@@ -3,3 +3,18 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  
+  #chat-container 
+    #message-list 
+      each message in messages
+        if message.role === "user"
+          .user-message= "User: " +  message.content 
+        else if message.role === "assistant"
+          .assistant-message= "Economist: " +  message.content 
+
+      
+  form#message-form
+    input(type='text', id='message-input')
+    button(type='submit') Send  
+
+  script(type='text/javascript', src='/javascripts/script.js')
