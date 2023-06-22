@@ -11,12 +11,12 @@ router.get('/', function (req, res, next) {
 /* POST */
 router.post('/', async (req, res) => {
   
-  const { messages } = await req.json();
+  const { messages } =  req.body;
   console.log(messages);
 
   chatGPTMessage = {'role': 'assistant', 'content': 'hmm'};
 
-  const response = { chatGPTmessage };
+  const response = chatGPTMessage ;
   res.json(response);
   
 })
