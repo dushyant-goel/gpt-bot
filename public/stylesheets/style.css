@@ -6,3 +6,22 @@ body {
 a {
   color: #00B7FF;
 }
+
+#chat-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.user-message {
+  margin-bottom: 10px;
+  background-color: #add7fe;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.assistant-message {
+  margin-bottom: 10px;
+  background-color: #f4ccc3;
+  padding: 5px;
+  border-radius: 5px;
+}

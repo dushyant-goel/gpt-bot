@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios')
 const { Configuration, OpenAIApi } = require('openai');
 
 const router = express.Router();
@@ -9,14 +8,20 @@ const configuration = new Configuration({
   apiKey: process.env.API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+let messages = []
 
-let messages = [
-  {role: 'system', content: 'Respond in style of The Economist.'},
-  {role: 'user', content: 'Cyril Ramaphosa has been elected the president of South Africa for a second term.'},
-]
+/* GET chat home page. */
+router.get('/generate', async function (req, res, next) {
 
-router.get('/generate', async (req, res) => {
-  
+  res.render('chat', { title: 'Charles Dickens GPT', messages: messages });
+
+});
+
+router.post('/generate', async (req, res) => {
+
+  const { messages } = req.body;
+  console.log(messages);
+
   try {
     const chatGPT = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
@@ -24,21 +29,22 @@ router.get('/generate', async (req, res) => {
       "top_p": 1,
       "n": 1,
       "stream": false,
-      "max_tokens": 250,
+      "max_tokens": 1024,
       "presence_penalty": 0,
       "frequency_penalty": 0,
       messages,
     })
-        
-    const chatGPTMessage = chatGPT.data.choices[0].message.content;
-    console.log(chatGPTMessage);
-    
-    res.render('index', {content: chatGPTMessage});
+
+    const chatGPTMessage = chatGPT.data.choices[0].message;
+    // const chatGPTMessage = {'role': 'assistant', 'content': 'Dumb answer.'};
+    // console.log(chatGPTMessage);
+
+    const response = chatGPTMessage;
+    res.json(response);
 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error occured');
-
   }
 
 });

@@ -3,7 +3,7 @@ const messageInput = document.getElementById('message-input')
 const messageList = document.getElementById('message-list')
 
 var messages = [
-    { "role": "assistant", "content": "Respond in the voice of The Economist"},
+    { 'role': 'system', 'content': 'Respond in style of Charles Dickens' },
 ];
 
 messageForm.addEventListener("submit", async (event) => {
@@ -19,9 +19,9 @@ messageForm.addEventListener("submit", async (event) => {
     
     // Send the user's message to the server
     
-    console.log(JSON.stringify({ 'role': 'user', content: userMessageContent }));
+    // console.log(JSON.stringify({ 'role': 'user', content: userMessageContent }));
     
-    const res = await fetch('/', {
+    const res = await fetch('/api/generate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -45,8 +45,11 @@ messageForm.addEventListener("submit", async (event) => {
     const assistantMessageElement = document.createElement('div');
     assistantMessageElement.classList.add('assistant-message');
     assistantMessageElement.textContent = chatGPTMessage.content;
+
+    messageList.appendChild(userMessageElement);
+    messageList.appendChild(assistantMessageElement);
     
-    console.log(messages);
+    // console.log(messages);
 });
 
 
